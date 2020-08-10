@@ -5,6 +5,11 @@ import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.spe.spetest.BuildConfig.BASE_URL
+import com.spe.spetest.data.local.AppDb
+import com.spe.spetest.data.local.CharsDao
+import com.spe.spetest.data.remote.CharsRemoteDataSource
+import com.spe.spetest.data.remote.CharsService
+import com.spe.spetest.data.repo.CharsRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,24 +42,25 @@ object AppModule {
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
 
-   /* @Provides
-    fun provideCharacterService(retrofit: Retrofit): CharacterService = retrofit.create(CharacterService::class.java)
+    @Provides
+    fun provideCharacterService(retrofit: Retrofit): CharsService = retrofit.create(CharsService::class.java)
 
     @Singleton
     @Provides
-    fun provideCharacterRemoteDataSource(characterService: CharacterService) = CharacterRemoteDataSource(characterService)
+    fun provideCharacterRemoteDataSource(characterService: CharsService) = CharsRemoteDataSource(characterService)
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext appContext: Context) = AppDatabase.getDatabase(appContext)
+    fun provideDatabase(@ApplicationContext appContext: Context) = AppDb.getDatabase(appContext)
 
     @Singleton
     @Provides
-    fun provideCharacterDao(db: AppDatabase) = db.characterDao()
+    fun provideCharacterDao(db: AppDb) = db.characterDao()
 
     @Singleton
     @Provides
-    fun provideRepository(remoteDataSource: CharacterRemoteDataSource,
-                          localDataSource: CharacterDao) =
-        CharacterRepository(remoteDataSource, localDataSource)*/
+    fun provideRepository(remoteDataSource: CharsRemoteDataSource,
+                          localDataSource: CharsDao
+    ) =
+        CharsRepo(remoteDataSource, localDataSource)
 }
